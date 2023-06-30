@@ -1,0 +1,330 @@
+TASK 1:
+
+Noah Wilson wants to book the Squash Court for two hours (2 slots) starting right now (CURRENT_TIMESTAMP).
+This is a transaction that consists of two operations:
+
+Adding a new record on the table booking.
+Subtracting the member cost of the squash court (multiplied by the number of slots) from Noah's account balance.
+Write down those two SQL statements and define them as a single transaction.
+
+Do not hard-code the ids of the member and facility in the transaction. Instead, use subqueries to retrieve the id
+based on the name of the member or facility.
+
+You can use CURRENT_TIMESTAMP to get the current time.
+
+Noah starts the day with 183 euros in his account. When the transaction ends Noah's balance should be 176 euros.
+
+SOLUTION:
+
+BEGIN;
+
+-- Add a new record to the booking table
+INSERT INTO booking (facility_id, member_id, start_time, slots)
+VALUES (
+    (SELECT id FROM facility WHERE name = 'Squash Court'),
+    (SELECT id FROM member WHERE name = 'Noah Wilson'),
+    CURRENT_TIMESTAMP,
+    2
+);
+
+-- Deduct the member cost of the squash court from Noah's account balance
+UPDATE member
+SET balance = balance - (
+    SELECT membercost * 2
+    FROM facility
+    WHERE name = 'Squash Court'
+)
+WHERE name = 'Noah Wilson';
+
+COMMIT;
+
+TASK 2:
+
+To accommodate Mia Ali's booking of the Tennis Court for 3 hours, starting from the current timestamp, you can modify
+the previous query accordingly. Here's the updated SQL transaction:
+
+```sql
+BEGIN;
+
+-- Add a new record to the booking table
+INSERT INTO booking (facility_id, member_id, start_time, slots)
+VALUES (
+    (SELECT id FROM facility WHERE name = 'Tennis Court'),
+    (SELECT id FROM member WHERE name = 'Mia Ali'),
+    CURRENT_TIMESTAMP,
+    3
+);
+
+-- Deduct the member cost of the tennis court from Mia's account balance
+UPDATE member
+SET balance = balance - (
+    SELECT membercost * 3
+    FROM facility
+    WHERE name = 'Tennis Court'
+)
+WHERE name = 'Mia Ali';
+
+COMMIT;
+```
+
+Now let's address the questions regarding the output and the error:
+
+1. What does the error mean and why does it occur?
+   - The error occurs when executing the `UPDATE` statement to deduct the member cost from Mia Ali's account balance.
+     It indicates a violation of the integrity constraint of the member's balance going below zero, resulting in a
+     negative balance. The error message suggests that the `UPDATE` statement affected 0 rows.
+
+2. What property of ACID transactions is involved in the error description?
+   - The property of ACID transactions involved in this error description is the "Isolation" property. In this case,
+     it specifically highlights the "Isolation" aspect of ACID, which ensures that the intermediate state of a
+     transaction is not visible to other transactions until the transaction is committed. The error message indicates
+     that the `UPDATE` statement didn't affect any rows, which means it couldn't deduct the member cost due to a
+     concurrent transaction updating Mia Ali's balance or another transaction reading her balance simultaneously.
+
+To prevent such errors, you can use appropriate transaction isolation levels or implement additional mechanisms
+like row-level locking or concurrency control to ensure data consistency and prevent conflicts between concurrent
+transactions.
+
+TASK 3:
+
+To accommodate Alice Peters' booking of Tennis Court 1 for 3 hours, with Noah Wilson covering the cost, you can modify
+the previous transaction by changing the order of operations. Here's the updated SQL transaction:
+
+```sql
+BEGIN;
+
+-- Deduct the member cost of the tennis court from Noah's account balance
+UPDATE member
+SET balance = balance - (
+    SELECT membercost * 3
+    FROM facility
+    WHERE name = 'Tennis Court'
+)
+WHERE name = 'Noah Wilson';
+
+-- Add a new record to the booking table
+INSERT INTO booking (facility_id, member_id, start_time, slots)
+VALUES (
+    (SELECT id FROM facility WHERE name = 'Tennis Court'),
+    (SELECT id FROM member WHERE name = 'Alice Peters'),
+    CURRENT_TIMESTAMP,
+    3
+);
+
+COMMIT;
+```
+
+Now let's address the questions regarding the output and the error:
+
+1. What does the error mean and why does it occur?
+   - The error occurs when executing the `UPDATE` statement to deduct the member cost from Noah Wilson's account
+     balance. It indicates a violation of the integrity constraint of the member's balance going below zero, resulting
+     in a negative balance. The error message suggests that the `UPDATE` statement affected 0 rows.
+
+2. The first operation executed without an error. Did Noah get charged? Why?
+   - No, Noah did not get charged. The error occurred during the `UPDATE` statement deducting the cost from Noah's
+     account balance, and since it affected 0 rows, it means the deduction did not take place. Therefore, Noah's
+     balance remained unchanged, and he did not get charged.
+
+The error in the `UPDATE` statement occurred because there might be a concurrent transaction modifying Noah Wilson's
+balance at the same time. This could lead to conflicts in updating the balance, resulting in the constraint violation
+and the `UPDATE` statement not affecting any rows.
+
+To handle such situations, you can use appropriate concurrency control mechanisms, such as locks or isolation levels,
+to ensure data consistency and avoid conflicts between concurrent transactions.
+
+TASK 4:
+
+To perform a test transaction without actually charging Noah Wilson or making a booking, you can modify the previous
+transaction by using Noah Wilson for both the charging and booking operations and then rolling back the transaction
+before committing. Here's the updated SQL transaction:
+
+```sql
+BEGIN;
+
+-- Deduct the member cost of the tennis court from Noah's account balance
+UPDATE member
+SET balance = balance - (
+    SELECT membercost * 3
+    FROM facility
+    WHERE name = 'Tennis Court'
+)
+WHERE name = 'Noah Wilson';
+
+-- Add a new record to the booking table
+INSERT INTO booking (facility_id, member_id, start_time, slots)
+VALUES (
+    (SELECT id FROM facility WHERE name = 'Tennis Court'),
+    (SELECT id FROM member WHERE name = 'Noah Wilson'),
+    CURRENT_TIMESTAMP,
+    3
+);
+
+ROLLBACK;
+```
+
+By using `ROLLBACK` instead of `COMMIT`, the changes made within the transaction will be discarded, effectively rolling
+back the transaction.
+
+Executing this modified transaction will not produce any errors. Noah Wilson's account will not be charged, and no
+booking will be added to the booking table. The transaction will be rolled back, undoing any changes made within the
+transaction, ensuring no permanent modifications are made to the database.
+
+This approach allows you to test the transaction without affecting the actual data and ensures that no unintended
+changes or bookings are made.
+
+TASK 5:
+
+To incorporate the new operation of rewarding members who have brought in new members, you can modify the current
+transaction to include the additional logic. Here's an updated version of the transaction that includes the reward
+feature:
+
+```sql
+BEGIN;
+
+-- Deduct the member cost of the massage room from Ella's account balance
+UPDATE member
+SET balance = balance - (
+    SELECT membercost
+    FROM facility
+    WHERE name = 'Massage Room 1'
+)
+WHERE name = 'Ella Lee';
+
+-- Add a new record to the booking table for Ella's booking
+INSERT INTO booking (facility_id, member_id, start_time, slots)
+VALUES (
+    (SELECT id FROM facility WHERE name = 'Massage Room 1'),
+    (SELECT id FROM member WHERE name = 'Ella Lee'),
+    CURRENT_TIMESTAMP,
+    1
+);
+
+-- Check if Ella was recommended by another member
+WITH recommended_by_data AS (
+    SELECT recommended_by
+    FROM member
+    WHERE name = 'Ella Lee'
+)
+-- Update the balance of the recommending member by adding 50 cents
+UPDATE member
+SET balance = balance + 0.50
+WHERE id IN (SELECT recommended_by FROM recommended_by_data);
+
+-- Retrieve the balances of Ella and Olivia before executing the transaction
+SELECT name, balance
+FROM member
+WHERE name IN ('Ella Lee', 'Olivia Muller');
+
+COMMIT;
+```
+
+Before executing the transaction, make sure to check the balances of Ella and Olivia. Then, execute the transaction
+and check the balances again to verify the changes.
+
+After executing the transaction, Ella's balance should be 35 euros less than before, indicating the deduction for the
+booking. Olivia's balance should remain the same, as she is not directly involved in the current transaction.
+
+This transaction incorporates the new feature of rewarding members who have recommended new members. The balance update
+for the recommending member is conditional and will only occur if Ella was indeed recommended by another member.
+
+TASK 6:
+
+In the given scenario, a delay of 5 seconds is introduced in the booking transaction by adding the line `SELECT
+pg_sleep(5);` after deducting the cost from Noah's balance and before inserting the new booking. This delay allows us
+to observe the behavior of the transaction and the visibility of changes in real-time.
+
+Before executing the transaction, a separate query is executed in another terminal or query window to check Noah's
+balance. The query is `SELECT balance FROM member WHERE name = 'Noah Wilson';` and it should return the current
+balance of 176 euros.
+
+When the booking transaction is executed, the SELECT query in the separate terminal or query window can still access
+and read the member table. This is because PostgreSQL utilizes multiversion concurrency control (MVCC) to provide
+transaction isolation.
+
+The changes made by the booking transaction are not immediately visible to the SELECT query in the separate terminal.
+The SELECT query will see the changes from the transaction once the transaction is committed. This behavior is
+influenced by the ACID properties of transactions, specifically the Isolation property.
+
+The Isolation property ensures that each transaction is isolated from other concurrent transactions until it is
+committed. This means that changes made by one transaction are not visible to other transactions until they are
+committed. In this case, the SELECT query only sees the changes from the booking transaction after the transaction
+is committed.
+
+TASK 7:
+
+By adding a lock at the beginning of the transaction, we can prevent any kind of access to the `member` table.
+This ensures exclusive access to the table during the transaction.
+
+Here's the modified transaction with a lock added:
+
+```sql
+BEGIN;
+
+-- Lock the member table to prevent any access
+LOCK TABLE member IN ACCESS EXCLUSIVE MODE;
+
+-- Deduct the member cost of the tennis court from Noah's account balance
+UPDATE member
+SET balance = balance - (
+    SELECT membercost * 3
+    FROM facility
+    WHERE name = 'Tennis Court'
+)
+WHERE name = 'Noah Wilson';
+
+-- Add a new record to the booking table
+INSERT INTO booking (facility_id, member_id, start_time, slots)
+VALUES (
+    (SELECT id FROM facility WHERE name = 'Tennis Court'),
+    (SELECT id FROM member WHERE name = 'Noah Wilson'),
+    CURRENT_TIMESTAMP,
+    3
+);
+
+-- Delay the transaction for 5 seconds
+SELECT pg_sleep(5);
+
+COMMIT;
+```
+
+After executing the above transaction, if we open another window and query Noah's balance using the following query:
+
+```sql
+SELECT balance FROM member WHERE name = 'Noah Wilson';
+```
+
+We won't be able to read the `member` table while the booking transaction is running. This is because the lock obtained
+at the beginning of the transaction prevents any access to the table by other transactions until it is released.
+
+If we try to access the `member` table while the transaction is still running, we will encounter an error indicating
+that the table is locked and cannot be accessed. The specific error message may vary depending on the PostgreSQL
+client being used.
+
+To release the lock and allow access to the `member` table, we need to either commit or rollback the transaction.
+Once the transaction is committed or rolled back, the lock is released automatically, and other transactions can
+access the table again.
+
+TASK 8:
+
+If we use the same transaction as in task 6, without the lock added in task 7, and in the other window execute a
+query to add a new field named `city` as text to the `member` table, the behavior observed would depend on the specific
+version of PostgreSQL being used.
+
+In some versions of PostgreSQL, schema modifications such as adding a new column to a table (in this case, adding the
+`city` field to the `member` table) require an exclusive lock on the table. This means that if the transaction in task
+6 is still running and has obtained a shared lock on the `member` table, the schema modification query will be blocked
+and won't be able to acquire the exclusive lock to modify the table structure.
+
+The observed difference between this case and task 6 is that in task 6, the query to check Noah's balance can still be
+executed while the transaction is running, but in this case, the query to add a new field to the `member` table is
+blocked and cannot proceed.
+
+This happens because the shared lock obtained by the transaction in task 6 allows concurrent access for reading
+purposes, but it restricts exclusive access required for schema modifications. The shared lock and exclusive lock
+are different types of locks used to control concurrent access to the table.
+
+To perform schema modifications while the transaction in task 6 is running, it would be necessary to either wait for
+the transaction to complete (commit or rollback) and release the shared lock, or interrupt the transaction by rolling
+it back. Once the shared lock is released, the schema modification query can proceed and add the new field to the
+`member` table.

@@ -1,0 +1,96 @@
+Aggregate Employee Data:
+
+1. CREATE TABLE employee_area (id SERIAL PRIMARY KEY, name VARCHAR (255), salary FLOAT);
+   - This line creates a new table called "employee_area" with three columns: "id" of type SERIAL with a primary
+     key constraint, "name" of type VARCHAR with a maximum length of 255 characters, and "salary" of type FLOAT.
+
+2. INSERT INTO employee_area (name, salary) VALUES ('Jhon Douh', 34987), ('Test emp', 2678), ('test 3', 983556);
+   - This line inserts three rows into the "employee_area" table. Each row consists of values for the "name" and
+     "salary" columns.
+
+3. SELECT COUNT(salary), SUM(salary), AVG(salary), MIN(salary), MAX(salary) FROM employee_area;
+   - This line retrieves aggregate values from the "employee_area" table. It calculates the count of salaries,
+     the sum of salaries, the average of salaries, the minimum salary, and the maximum salary.
+
+4. SELECT COUNT(*), COUNT(name), COUNT(DISTINCT name) FROM employee_area;
+   - This line retrieves three counts from the "employee_area" table. It calculates the count of all rows, the
+     count of non-null values in the "name" column, and the count of distinct (unique) values in the "name" column.
+
+5. INSERT INTO employee_area (name, salary) VALUES ('test null', NULL);
+   - This line inserts a row into the "employee_area" table with the value 'test null' for the "name" column and a
+     NULL value for the "salary" column.
+
+6. SELECT AVG(salary), SUM(salary)::numeric/COUNT(*) FROM employee_area;
+   - This line retrieves the average salary from the "employee_area" table. It also calculates the sum of salaries
+     divided by the count of all rows to get the average using numeric type casting (::numeric).
+
+7. SELECT COUNT (salary) FROM employee_area;
+   - This line retrieves the count of non-null values in the "salary" column from the "employee_area" table.
+
+8. SELECT city_id FROM area GROUP BY city_id;
+   - This line retrieves distinct values of the "city_id" column from the "area" table. The result is grouped by
+     the "city_id" column.
+
+9. SELECT city_id FROM area;
+   - This line retrieves all values of the "city_id" column from the "area" table without any grouping or aggregation.
+
+10. SELECT type from area GROUP BY type;
+   - This line retrieves distinct values of the "type" column from the "area" table. The result is grouped by the
+     "type" column.
+
+11. SELECT name, city_id FROM area GROUP BY city_id;
+   - This line produces an error: "ERROR: column 'area.name' must appear in the GROUP BY clause or be used in an
+     aggregate function." It means that when grouping by the "city_id" column, any other columns included in the
+     SELECT statement must either be part of the GROUP BY clause or be used in an aggregate function. In this case,
+     the "name" column is not part of the GROUP BY clause or used in an aggregate function, causing the error.
+
+12. SELECT city_id, COUNT(name) FROM area GROUP BY city_id;
+   - This line retrieves the "city_id" column and the count of non-null values in the "name" column from the
+     "area" table. The result is grouped by the "city_id" column.
+
+13. ALTER TABLE employee_area ADD COLUMN type VARCHAR(255);
+   - This line alters the "employee_area" table by adding a new column called "type" of type VARCHAR with a maximum
+     length of 255 characters.
+
+14. UPDATE employee SET type = 'Accounter';
+   - This line updates all rows in the "employee" table and sets the value of the "type" column to 'Accounter'
+     for all rows.
+
+15. UPDATE employee SET type = 'GM' WHERE id = 1;
+   - This line updates a specific row in the "employee" table. It sets the value of the "type" column to 'GM'
+     for the row with an "id" equal to 1.
+
+16. SELECT type, AVG(salary) FROM employee GROUP BY type;
+   - This line retrieves distinct values of the "type" column from the "employee" table. It also calculates
+     the average salary for each distinct type. The result is grouped by the "type" column.
+
+EXISTS:
+
+1. SELECT inner_query."Location name" FROM (SELECT name AS "Location name", type AS "Location type", q_earnings AS
+   "Earnings" FROM area) AS inner_query;
+   - This line performs a subquery on the "area" table, renaming the "name" column as "Location name,"
+     the "type" column as "Location type," and the "q_earnings" column as "Earnings." The outer query then selects
+     the "Location name" column from the result of the subquery.
+
+2. CREATE TABLE test_subq (id INT PRIMARY KEY, name VARCHAR(255), city_id INT);
+   - This line creates a new table called "test_subq" with three columns: "id" of type INT with a primary key
+     constraint, "name" of type VARCHAR with a maximum length of 255 characters, and "city_id" of type INT.
+
+3. INSERT INTO test_subq (id, name, city_id) VALUES (1, 'test1', 4), (2, 'test2', 1), (3, 'test3', 3);
+   - This line inserts three rows into the "test_subq" table. Each row consists of values for the "id," "name,"
+     and "city_id" columns.
+
+4. SELECT * FROM test_subq WHERE city_id NOT IN (SELECT id FROM city);
+   - This line retrieves all rows from the "test_subq" table where the "city_id" column does not have a value
+     present in the result of the subquery that selects the "id" column from the "city" table.
+
+5. SELECT name, (SELECT name FROM city WHERE city.id=test_subq.city_id) AS "City name" FROM test_subq;
+   - This line retrieves the "name" column from the "test_subq" table. It also performs a subquery to retrieve
+     the "name" column from the "city" table where the "id" in the "city" table matches the "city_id" in the
+     "test_subq" table. The result of the subquery is aliased as "City name."
+
+6. SELECT name, city_id, EXISTS (SELECT * FROM city WHERE id=test_subq.city_id) FROM test_subq;
+   - This line retrieves the "name" and "city_id" columns from the "test_subq" table. It also includes a column
+     that uses the EXISTS operator to check if there are any rows in the subquery that selects all columns from the
+     "city" table where the "id" matches the "city_id" in the "test_subq" table. The result is a True or False value
+     indicating the existence of matching rows.

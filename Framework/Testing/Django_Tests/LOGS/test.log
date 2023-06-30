@@ -1,0 +1,17 @@
+Items 10, 20
+About Adding item 10 and 20
+An error occurred can only concatenate str (not "int") to str
+This error would have stopped me
+My result is None
+ Items 10, 20 
+ About Adding item 10 and 20 
+ Check the types of items 
+ My result is 30 
+ DEBUG Items 10, 20 
+ INFO About Adding item 10 and 20 
+ WARNING Check the types of items 
+ INFO My result is 30 
+ DEBUG 2023-06-28 18:18:57,961 Items 10, 20 
+ INFO 2023-06-28 18:18:57,961 About Adding item 10 and 20 
+ WARNING 2023-06-28 18:18:57,962 Check the types of items 
+ INFO 2023-06-28 18:18:57,962 My result is 30 

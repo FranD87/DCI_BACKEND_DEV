@@ -1,0 +1,38 @@
+# CREATE TABLE users (ID serial PRIMARY KEY NOT NULL, username varchar(255) NOT NULL);
+# INSERT INTO users (username) VALUES ('mamasitta'), ('new_user'), ('Some new user');
+# CREATE TABLE massage (ID serial PRIMARY KEY NOT NULL, massage TEXT NOT NULL, user_id INT REFERENCES users);
+# INSERT INTO massage (massage, user_id) VALUES ('test massage', 1), ('test massage 2', 1), ('test massage3', 2);
+# INSERT INTO massage (massage, user_id) VALUES ('test massage 4', 10); -> ERROR
+# SELECT users.username, massage.massage FROM users, massage WHERE users.ID = massage.user_id;
+# what will happened when we will try to delete from users?
+# DELETE FROM users WHERE ID=1;
+# The two most common modes for ON DELETE are SET NULL and CASCADE.
+# SET NULL will set the referencing value to NULL.
+# CASCADE will delete the referencing row.
+# CREATE TABLE massage_1 (ID serial PRIMARY KEY NOT NULL, massage TEXT NOT NULL, user_id INT REFERENCES users ON DELETE
+SET NULL);
+# INSERT INTO massage_1 (massage, user_id) VALUES ('test massage', 1), ('test massage 2', 1), ('test massage3', 2);
+# CREATE TABLE massage_2 (ID serial PRIMARY KEY NOT NULL, massage TEXT NOT NULL, user_id INT REFERENCES users ON DELETE
+CASCADE);
+# INSERT INTO massage_2 (massage, user_id) VALUES ('test massage', 1), ('test massage 2', 1), ('test massage3', 2);
+# DELETE FROM massage WHERE user_id IN (1, 2);
+# DELETE FROM users WHERE ID=1;
+# SELECT * FROM massage_2;
+# SELECT * FROM massage_1;
+
+1. Creates a table called "users" with columns for ID and username.
+2. Inserts three new rows into the "users" table with the specified usernames.
+3. Creates a table called "massage" with columns for ID, massage, and user_id, with a foreign key constraint on the "user_id" column that references the "ID" column of the "users" table.
+4. Inserts three new rows into the "massage" table, each with a different message and user_id.
+5. Attempts to insert a new row into the "massage" table with a non-existent user_id, which will result in an error.
+6. Selects the username and message for all rows in the "users" and "massage" tables where the user_id matches the ID.
+7. Deletes the row in the "users" table where the ID equals 1.
+8. Discusses the two most common modes for handling foreign key constraints when deleting rows: SET NULL and CASCADE.
+9. Creates a new table called "massage_1" with the same columns as the "massage" table, with the addition of a foreign key constraint on the "user_id" column that uses the SET NULL mode for handling deletions.
+10. Inserts three new rows into the "massage_1" table, each with a different message and user_id.
+11. Creates a new table called "massage_2" with the same columns as the "massage" table, with the addition of a foreign key constraint on the "user_id" column that uses the CASCADE mode for handling deletions.
+12. Inserts three new rows into the "massage_2" table, each with a different message and user_id.
+13. Deletes all rows in the "massage" table where the user_id is either 1 or 2.
+14. Deletes the row in the "users" table where the ID equals 1.
+15. Selects all rows from the "massage_2" table.
+16. Selects all rows from the "massage_1" table.

@@ -1,0 +1,245 @@
+CLI commands:
+
+CREATE VIEW friend_messages AS SELECT users.username, massage_1.massage FROM users,
+massage_1 WHERE users.id = massage_1.user_id;
+
+The SQL query creates a view named "friend_messages". This view selects data from two tables named "users" and
+"massage_1" and joins them based on the "id"column in the "users" table and the "user_id" column in the "massage_1"
+table.The SELECT statement in the view selects the "username" column from the "users" table and the "message" column
+from the "massage_1" table.Once the view is created, it can be used to retrieve data as if it were a table. For example,
+the following query can be used to retrieve all the messages with the corresponding usernames of the users who posted
+them. This query will return a result set that includes all the messages and the corresponding usernames of the users who
+posted them. The view can be updated using the "CREATE OR REPLACE VIEW" statement followed by the new definition of the
+view.
+
+SELECT * FROM friend_messages;
+
+SELECT * FROM friend_messages; will retrieve all the data from the "friend_messages" view. This view
+selects data from two tables named "users" and "massage_1" and joins them based on the "id" column in the "users" table
+and the "user_id" column in the "massage_1" table. The SELECT statement in the view selects the "username" column from
+the "users" table and the "message" column from the "massage_1" table. When you execute this query, it will return a
+result set that includes all the messages and the corresponding usernames of the users who posted them. The result set
+will have the same columns as the view "friend_messages".
+
+INSERT INTO massage_1 (massage, user_id) VALUES ('test massage', 3), ('test massage 2', 3), ('test massage5', 2);
+
+INSERT INTO massage_1 (massage, user_id) VALUES ('test massage', 3), ('test massage 2', 3),('test massage5', 2);
+Will insert three new rows into the "massage_1" table. Each row will have two values - a
+message and a user ID. The first row will have the message 'test massage' and the user ID of 3. The second row will
+have the message 'test massage 2' and the user ID of 3. The third row will have the message 'test massage5'
+and the user ID of 2.When you execute this query, it will insert these three new rows into the "massage_1"
+table, assuming that the table exists and has the columns "massage" and "user_id".
+
+SELECT * FROM friend_messages WHERE massage LIKE '%e';
+
+SELECT * FROM friend_messages WHERE massage LIKE '%e'; will select all rows from the
+"friend_messages" view where the "massage" column ends with the letter 'e'.The '%' symbol is a wildcard
+character that matches any sequence of zero or more characters, so '%e' matches any string that ends with
+the letter 'e'.When you execute this query, it will return a result set that includes all the messages and
+corresponding usernames of the users who posted them, but only for those rows where the "massage" column
+ends with the letter 'e'.
+
+ALTER VIEW IF EXISTS friend_messages RENAME TO full_name_messages;
+
+ALTER VIEW IF EXISTS friend_messages RENAME TO full_name_messages; will attempt to rename the
+view named "friend_messages" to "full_name_messages".The "IF EXISTS" clause is used to check if the
+"friend_messages" view exists before attempting to rename it. If the view exists, it will be renamed to
+"full_name_messages". If the view does not exist, then nothing will happen. When you execute this query,
+it will rename the "friend_messages" view to "full_name_messages", assuming that the view exists and that
+you have the necessary permissions to alter views.
+
+DROP VIEW IF EXISTS full_name_messages;
+
+DROP VIEW IF EXISTS full_name_messages; will attempt to drop (delete) the view named
+"full_name_messages".The "IF EXISTS" clause is used to check if the "full_name_messages" view exists
+before attempting to drop it. If the view exists, it will be dropped. If the view does not exist,
+then nothing will happen.When you execute this query, it will drop the "full_name_messages" view,
+assuming that the view exists and that you have the necessary permissions to drop views.
+
+CREATE OR REPLACE VIEW friend_messages AS SELECT users.username, massage_1.massage FROM users,
+massage_1 WHERE users.id = massage_1.user_id;
+
+CREATE OR REPLACE VIEW friend_messages AS SELECT users.username, massage_1.massage
+FROM users, massage_1 WHERE users.id = massage_1.user_id; will create or replace a view named "friend_messages".
+This view selects data from two tables named "users" and "massage_1" and joins them based on the
+"id" column in the "users" table and the "user_id" column in the "massage_1" table. The SELECT statement
+in the view selects the "username" column from the "users" table and the "message" column from the "massage_1" table.
+If the "friend_messages" view already exists, this query will replace it with the new definition. If the view
+does not exist, it will be created with the new definition.Once the view is created or replaced, it can be
+used to retrieve data as if it were a table. For example, the following query can be used to retrieve all
+the messages with the corresponding usernames of the users who posted them This query will return a result set that
+includes all the messages and the corresponding usernames of the users who posted them. The view can be updated using
+the "CREATE OR REPLACE VIEW" statement followed by the new definition of the view.
+
+INSERT INTO friends (name, age) VALUES ('Alex', 21), ('Misha', 13), ('Tom', 17), ('Greg', 7), ('Monica', 19);
+
+INSERT INTO friends (name, age) VALUES ('Alex', 21), ('Misha', 13), ('Tom', 17), ('Greg', 7),
+('Monica', 19); will insert five new rows into the "friends" table.Each row will have two values - a name and an age.
+The first row will have the name 'Alex' and the age of 21. The second row will have the name 'Misha' and the age of 13.
+The third row will have the name 'Tom' and the age of 17. The fourth row will have the name 'Greg' and the age of 7.
+The fifth row will have the name 'Monica' and the age of 19.When you execute this query, it will insert these five new
+rows into the "friends" table, assuming that the table exists and has the columns "name" and "age".
+
+CREATE OR REPLACE VIEW teenage_friends AS SELECT friends.name, friends.age FROM friends WHERE
+friends.age BETWEEN 13 AND 19;
+
+CREATE OR REPLACE VIEW teenage_friends AS SELECT friends.name, friends.age FROM friends WHERE friends.age
+BETWEEN 13 AND 19; will create or replace a view named "teenage_friends".This view selects data from the "friends" table
+and filters the results to only include rows where the age column is between 13 and 19 (inclusive). The SELECT
+statement in the view selects the "name" and "age" columns from the "friends" table for those rows that match
+the filter.If the "teenage_friends" view already exists, this query will replace it with the new definition.
+If the view does not exist, it will be created with the new definition.Once the view is created or replaced, it can be
+used to retrieve data as if it were a table. For example, the following query can be used to retrieve all the names
+and ages of teenage friends This query will return a result set that includes all the names and ages of the friends
+whose ages fall between 13 and 19. The view can be updated using the "CREATE OR REPLACE VIEW" statement followed by the
+new definition of the view.
+
+SELECT * FROM teenage_friends;
+
+SELECT * FROM teenage_friends; will retrieve all the data from the "teenage_friends" view.
+This query will return a result set that includes the names and ages of all the friends whose ages fall between 13 and
+19, as defined in the view. The result set will have two columns - "name" and "age" - and a row for each friend that
+matches the filter in the view.Assuming that the "teenage_friends" view has been created successfully using the
+definition you provided earlier, executing this query will return the names and ages of the teenage friends that
+were inserted into the "friends" table earlier.
+
+INSERT INTO teenage_friends (name, age) VALUES ('Amina', 27);
+
+You cannot directly insert data into a view in SQL. A view is a virtual table that is based on the SELECT statement that
+defines it, and it does not have its own data storage. Instead, you need to insert data into the underlying table(s)
+that the view is based on.In this case, the "teenage_friends" view is based on the "friends" table, which has columns
+for "name" and "age". If you want to add a new friend to the "friends" table, you can use the following SQL query:
+INSERT INTO friends (name, age) VALUES ('Amina', 27);
+This query will insert a new row into the "friends" table with the name "Amina" and age "27". Since the
+"teenage_friends" view is based on the "friends" table with the age filter between 13 and 19, this new row will not be
+included in the "teenage_friends" view.If you want to include Amina in the "teenage_friends" view, you will need to
+update her age to fall between 13 and 19. Alternatively, you could modify the view definition to include a wider range
+of ages. However, it is generally not a good idea to modify a view to include data that does not meet its original
+filter criteria.
+Adding WITH CHECK OPTION will require the inserted values to match the conditions in the query defined in the view.
+
+CREATE OR REPLACE VIEW teenage_friends AS SELECT friends.name, friends.age FROM friends WHERE friends.age
+BETWEEN 13 AND 19 WITH CHECK OPTION;
+
+CREATE OR REPLACE VIEW teenage_friends AS SELECT friends.name, friends.age FROM friends WHERE
+friends.age BETWEEN 13 AND 19 WITH CHECK OPTION; will create or replace the "teenage_friends" view, with an additional
+"WITH CHECK OPTION" clause.This clause is used to ensure that any data modifications made through the view satisfy
+the original filter criteria. In this case, it ensures that any new rows or updates made to existing rows in the view's
+underlying "friends" table must have an age between 13 and 19 (inclusive).So if you try to insert a row with an age that
+does not satisfy this criteria, the database system will generate an error and prevent the modification from being made.
+Note that the "WITH CHECK OPTION" clause is not necessary for views that are read-only, but it can be useful for views
+that are used for data modification, especially if the view's definition includes a filter condition like this one.
+
+INSERT INTO teenage_friends (name, age) VALUES ('Anna', 26); -> ERROR:  new row violates check option for view
+"teenage_friends"
+
+INSERT INTO teenage_friends (name, age) VALUES ('Anna', 26); will generate an
+error because the view definition includes a "WITH CHECK OPTION" clause that restricts the age values to be between
+13 and 19 (inclusive).Since the age value for Anna is 26, it does not satisfy the filter condition in the view
+definition. Therefore, the database system will generate a "CHECK constraint failed" error and prevent the insertion
+from being made.To insert Anna into the "friends" table, you can use the following SQL query instead:
+INSERT INTO friends (name, age) VALUES ('Anna', 26);
+This query will insert a new row into the "friends" table with the name "Anna" and age "26". However, since the
+"teenage_friends" view is based on the "friends" table with the age filter between 13 and 19, this new row will not
+be included in the "teenage_friends" view.
+
+CREATE MATERIALIZED VIEW teen_frnd AS SELECT friends.name, friends.age FROM friends WHERE friends.age BETWEEN 13 AND 19;
+
+CREATE MATERIALIZED VIEW teen_frnd AS SELECT friends.name, friends.age FROM friends WHERE friends.age
+BETWEEN 13 AND 19; creates a materialized view called "teen_frnd" that includes the names and ages of friends between
+the ages of 13 and 19 from the "friends" table.Unlike a regular (non-materialized) view, a materialized view is a
+physical table that is populated with the result set of the SELECT statement that defines it. This means that the data
+is stored on disk, which can improve query performance by reducing the need to recompute the view's result set each
+time it is queried.However, this also means that the data in the materialized view may become stale over time, as it
+does not automatically update itself when changes are made to the underlying tables. To refresh the data in a
+materialized view, you need to explicitly run a command to update it.In this case, the "teen_frnd" materialized
+view will include all friends between the ages of 13 and 19 at the time it is created, but any new friends that
+are added to the "friends" table afterwards will not automatically be included in the materialized view until it
+is refreshed.
+
+SELECT * FROM teen_frnd;
+
+SELECT * FROM teen_frnd; will retrieve all rows from the "teen_frnd" materialized view, which includes
+the names and ages of friends between the ages of 13 and 19 from the "friends" table.Assuming the materialized view
+has already been created and populated with data, this query will return a result set of all the rows currently stored
+in the materialized view.Note that since a materialized view is a physical table, its data may become stale over time
+if the underlying tables are updated. To ensure that the data in the materialized view is up to date, you can refresh
+it using the following command:
+REFRESH MATERIALIZED VIEW teen_frnd;
+This will recompute the view's result set and update the materialized view with the latest data from the "friends"
+table that satisfies the view's filter condition.
+
+
+Brief description command:
+
+
+1. CREATE VIEW friend_messages: This line creates a new view called "friend_messages" that selects the "username" and
+"massage" columns from the "users" and "massage_1" tables, respectively, where the user ID matches.
+
+2. SELECT * FROM friend_messages: This line selects all the rows and columns from the "friend_messages" view and
+returns them.
+
+3. INSERT INTO massage_1: This line inserts three rows of data into the "massage_1" table, specifying the massage
+text and the user ID.
+
+4. SELECT * FROM friend_messages WHERE massage LIKE '%e': This line selects all the rows and columns from the
+"friend_messages" view where the "massage" column contains the letter "e" somewhere in the text.
+
+5. ALTER VIEW IF EXISTS friend_messages RENAME TO full_name_messages: This line renames the existing "friend_messages"
+view to "full_name_messages".
+
+6. DROP VIEW IF EXISTS full_name_messages: This line deletes the "full_name_messages" view, if it exists.
+
+7. CREATE OR REPLACE VIEW friend_messages: This line creates a new view called "friend_messages" that selects the
+"username" and "massage" columns from the "users" and "massage_1" tables, respectively, where the user ID matches.
+If the view already exists, it will be replaced.
+
+8. CREATE TABLE friends: This line creates a new table called "friends" with columns "ID", "name", and "age", where "ID"
+is a serial primary key, "name" is a varchar(255) not null, and "age" is an integer.
+
+9. INSERT INTO friends: This line inserts five rows of data into the "friends" table, specifying the name and age
+of each person.
+
+10. CREATE OR REPLACE VIEW teenage_friends: This line creates a new view called "teenage_friends" that selects the
+"name" and "age" columns from the "friends" table, where the age is between 13 and 19. If the view already exists,
+it will be replaced.
+
+11. SELECT * FROM teenage_friends: This line selects all the rows and columns from the "teenage_friends" view and
+returns them.
+
+12. INSERT INTO teenage_friends: This line attempts to insert a new row of data into the "teenage_friends" view,
+specifying the name and age of the person. However, since the "WITH CHECK OPTION" is not present, this will actually
+insert into the "friends" table instead.
+
+13. SELECT * FROM teenage_friends: This line selects all the rows and columns from the "teenage_friends" view and
+returns them.
+
+14. SELECT * FROM friends: This line selects all the rows and columns from the "friends" table and returns them.
+
+15. CREATE OR REPLACE VIEW teenage_friends WITH CHECK OPTION: This line creates a new view called "teenage_friends"
+that selects the "name" and "age" columns from the "friends" table, where the age is between 13 and 19, and adds the
+"WITH CHECK OPTION" clause. This means that any attempt to insert data into this view must satisfy the condition
+specified in the view.
+
+16. INSERT INTO teenage_friends: This line attempts to insert a new row of data into the "teenage_friends" view,
+specifying the name and age of the person. However, since the age specified (26) does not satisfy the condition
+specified in the view (between 13 and 19), an error will be thrown.
+
+17. CREATE MATERIALIZED VIEW teen_frnd: This line creates a new materialized view called "teen_frnd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

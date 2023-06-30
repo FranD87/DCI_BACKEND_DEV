@@ -1,0 +1,2 @@
+[Python-Course-Basics-Print-Comments-DataTypes-.pdf](..%2F..%2F..%2F..%2F..%2F..%2FDocuments%2FPrinting%20material%20python%2Fpython%20fundamentals%2FPython-Course-Basics-Print-Comments-DataTypes-.pdf)
+[Python-Course-Slides - 1_Fundamentals - 1.1 Course Intro.pdf](..%2F..%2F..%2F..%2F..%2F..%2FDocuments%2FPrinting%20material%20python%2Fpython%20fundamentals%2FPython-Course-Slides%20-%201_Fundamentals%20-%201.1%20Course%20Intro.pdf)

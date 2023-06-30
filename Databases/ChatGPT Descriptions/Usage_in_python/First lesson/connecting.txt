@@ -1,0 +1,109 @@
+conn = psycopg2.connect(
+    database='pusage',
+    user='postgres',
+    password='julia123',
+    host='127.0.0.1',
+    port='5432'
+    )
+The first few lines establish a connection to a PostgreSQL database called 'pusage' with the specified user, password,
+host, and port number.
+
+cursor = conn.cursor()
+The next line creates a cursor object that allows you to execute SQL commands on the database.
+
+cursor.execute('SELECT version();')
+db_version = cursor.fetchone()
+This executes the SQL command 'SELECT version();' to retrieve the version of the database and stores
+the result in a variable called 'db_version'.
+
+cursor.execute('CREATE TABLE IF NOT EXISTS test1 (id SERIAL PRIMARY KEY, num INT, data VARCHAR(255));')
+Creates a table called 'test1' in the database if it does not already exist. The table has three columns: an 'id'
+column that auto-increments with each new row, a 'num' column for storing integers, and a 'data' column for
+storing strings.
+
+cursor.execute("INSERT INTO test1 (num, data) VALUES (12, 'test_val'), (87, 'Test_val 2'), (98, 'Test_val 3');")
+This line inserts three rows of data into the 'test1' table. The first row has a 'num' value of 12 and a 'data' value of
+'test_val', the second row has a 'num' value of 87 and a 'data' value of 'Test_val 2', and the third row has a 'num'
+value of 98 and a 'data' value of 'Test_val 3
+
+cursor.execute('SELECT * FROM test1;')
+data = cursor.fetchall()
+The next line retrieves all rows from the 'test1' table and stores the result in a variable called 'data'.
+
+
+data = cursor.fetchone()
+Fetch the first row of the query result and assign it to the variable "data".
+
+data_all = cursor.fetchall()
+Fetch all remaining rows of the query result and assign them to the variable "data_all".
+
+data_2 = cursor.fetchmany(2)
+Fetch the next two rows of the query result and assign them to the variable "data_2".
+
+cursor.execute("INSERT INTO test1 (num, data) VALUES (%s, %s)", ('BLA-BLA', 22))
+This line executes an SQL statement to insert data into the "test1" table. The values being inserted are provided in
+the form of a tuple ('BLA-BLA', 22), which contains two values that correspond to the placeholders (%s) in the SQL
+statement. The first value 'BLA-BLA' will be inserted into the "data" column of the "test1" table and the second value
+22 will be inserted into the "num" column of the "test1" table.
+
+cursor.execute("INSERT INTO test1 (num, data) VALUES (%(number)s, %(my_data)s)", {'my_data': 'test data 100',
+'number': 55})
+This line of code inserts a new row into the 'test1' table in the database using a parameterized SQL query. The query
+contains placeholders `%s` and `%s` that correspond to the values that will be provided by the second argument, a
+dictionary of parameter values. The values for the placeholders are provided as key-value pairs in the dictionary.
+Specifically, the `num` field is set to the value `55` and the `data` field is set to the value `'test data 100'`.
+When this line of code is executed, the database driver will sanitize the inputs and substitute them into the query
+before executing it against the database.
+
+my_number = input('Enter number')
+Prompt the user to enter a number and assign the input to the variable "my_number"
+
+my_data = input('Enter some data')
+Prompt the user to enter some data and assign the input to the variable "my_data
+
+cursor.execute("INSERT INTO test1 (num, data) VALUES (%(number)s, %(my_data)s)", {'number': my_number,
+'my_data': my_data})
+This line of code inserts a new row into the 'test1' table of the connected PostgreSQL database using the cursor's
+execute method. The values to be inserted are provided as a dictionary, where the keys correspond to the named
+placeholders in the SQL statement, and the values are obtained from the 'my_number' and 'my_data' variables, which
+are user inputs. The named placeholders are defined using the '%' syntax followed by the corresponding key in the
+dictionary. The executed SQL statement looks like "INSERT INTO test1 (num, data) VALUES (%(number)s, %(my_data)s)"
+and is parameterized using named placeholders. This ensures that the user input is sanitized and prevents SQL injection
+attacks.
+
+cursor.execute("INSERT INTO test1 (num, data) VALUES (" + my_number + ", '" + my_data + "');
+This line is very similar to the previous line, where an SQL INSERT statement is executed, but in this case, the values
+of `my_number` and `my_data` are directly inserted into the SQL statement using string concatenation. This method is
+generally discouraged as it can be vulnerable to SQL injection attacks, where malicious SQL code can be injected
+through user input. The recommended approach is to use parameterized queries with placeholders for user input values,
+as in the previous examples.
+
+cursor.execute('SELECT * FROM test1;')
+Execute a SQL query to retrieve all rows from the "test1" table.
+
+data = cursor.fetchall()
+Fetch all rows of the query result and assign them to the variable "data".
+
+conn.commit()
+Commit the changes made to the database by the executed queries.
+
+cursor_julia = conn.cursor()
+Create a new cursor object from the same database connection.
+
+try: Start a try block to catch exceptions.
+cursor_julia.execute('SELECT * FROM bla;'):
+Execute a SQL query that will raise an exception because the "bla" table does not exist.
+conn.commit(): Commit the changes made to the database by the executed query.
+except (Exception, psycopg2.Error) as error: Catch any exception or psycopg2.Error that occurs and assign it to the
+variable "error".
+conn.commit(): Commit the changes made to the database by the executed query in the except block.
+print(f'HERE is error{error}'): Print a message that includes the error message that was caught.
+
+conn.close(): Close the database connection.
+
+
+
+
+
+
+

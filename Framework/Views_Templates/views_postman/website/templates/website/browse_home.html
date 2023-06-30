@@ -1,0 +1,34 @@
+<html>
+    <header>Browse Shop</header>
+    <body>
+        <h1>{{ my_var }}</h1>
+        <h2>{{ my_list.1 }}</h2>
+        <h1>{{ my_dict.user_name }}</h1>
+        <h1>Username is {{ user.name }}, user age is {{ user.age }}</h1>
+        {% for item in my_list %}
+            <h1>{{ item }}</h1>
+        {% endfor %}
+        {% for word in my_var.split  %}
+            <h1>{{ word }}</h1>
+        {% endfor %}
+        {% if my_list %}
+            {% for item in my_list %}
+                <h3>{{ item }}</h3>
+            {% endfor %}
+        {% else %}
+            <h3>List is empty</h3>
+        {% endif %}
+        <h1>{{ user.age|add:3 }}</h1>
+        {% for item in my_list %}
+            <h2>{{ item }}</h2>
+        {% empty %}
+            <h2>Empty list</h2>
+        {% endfor %}
+        {% comment %}
+            <h1>HERE IS MY COMMENT</h1>
+        {% endcomment %}
+        <a href="{% url 'website:home' %}">HOME</a>
+
+
+    </body>
+</html>

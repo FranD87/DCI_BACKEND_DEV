@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Feedbacks</title>
+</head>
+<body>
+    <h1> List of Feedbacks</h1>
+    {% for feedback in feedbacks %}
+        <p> {{ feedback.name }} -- {{feedback.section}} </p>
+    {% endfor %}
+</body>
+</html>

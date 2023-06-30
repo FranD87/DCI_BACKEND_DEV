@@ -1,0 +1,37 @@
+Task: Create a Website using Django Templates
+
+Objective:
+The objective of this task is to practice Django templates and the Django template language by creating a simple product listing website.
+
+Requirements:
+
+Install Django: Make sure you have Django installed on your machine. If not, install it using pip.
+
+Create a new Django project: Start by creating a new Django project called "ProductListingWebsite".
+
+Create a Django app: Create a new Django app called "products".
+
+Configure URL patterns: Configure the URL patterns in the project's urls.py file to map to the appropriate views.
+
+Create a product model: Create a model called "Product" in the "products" app that represents a product. It should have the following fields:
+
+Name (CharField)
+Description (TextField)
+Price (DecimalField)
+Quantity(IntegerField)
+Set up the database: Configure the database settings in the project's settings.py file and run the necessary migrations to create the "Product" table in the database.
+
+Create views: Implement views in the "products" app to handle the following functionalities:
+
+Display a list of all products on the home page ("/"). If products have 0 quantity add a note that this product is not available, all available products should be displayed as a links to product detail page
+Display a single product on a separate page ("/product/<product_id>/").
+Create templates: Create the necessary templates in the "products" app to render the views. Use the Django template language to dynamically display the product data. Create simple header and footer for website
+
+Style the website: Apply simple CSS styles to make the website visually appealing. Use static folder for it
+
+Test the website: Run the Django development server and test the website in a web browser. Make sure all functionalities are working as expected.
+
+Resources:
+
+Django documentation: https://docs.djangoproject.com/
+Django templates documentation: https://docs.djangoproject.com/en/3.2/topics/templates/

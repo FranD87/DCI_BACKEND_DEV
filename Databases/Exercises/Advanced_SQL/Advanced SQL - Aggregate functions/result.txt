@@ -1,0 +1,106 @@
+TASK 1:
+
+```sql
+SELECT
+  COUNT(*) AS Total,
+  MIN(starts_on) AS "First started on",
+  MAX(ends_on) AS "Last ended on",
+  SUM(audience) AS "Total audience",
+  AVG(audience) AS "Average audience"
+FROM
+  webinar;
+```
+- COUNT(*) calculates the total number of webinars conducted.
+- MIN(starts_on) finds the earliest start date and time of all webinars.
+- MAX(ends_on) retrieves the latest end date and time of all webinars.
+- SUM(audience) calculates the total number of attendees across all webinars.
+- AVG(audience) computes the average number of attendees per webinar.
+
+The result will have the following columns:
+- Total: Total number of webinars.
+- First started on: The earliest start date and time among all webinars.
+- Last ended on: The latest end date and time among all webinars.
+- Total audience: The sum of the audience across all webinars.
+- Average audience: The average number of attendees per webinar.
+
+
+TASK 2:
+
+To track the popularity of a particular teacher and retrieve the desired statistics, you can use the following SQL
+statement:
+
+For teacher Julius Maxim:
+
+```sql
+SELECT
+  COUNT(*) AS Total,
+  MIN(starts_on) AS "First started on",
+  MAX(ends_on) AS "Last ended on",
+  SUM(audience) AS "Total audience",
+  AVG(audience) AS "Average audience"
+FROM
+  webinar
+WHERE
+  teacher = 'Julius Maxim';
+```
+
+For teacher Julia Vila:
+
+```sql
+SELECT
+  COUNT(*) AS Total,
+  MIN(starts_on) AS "First started on",
+  MAX(ends_on) AS "Last ended on",
+  SUM(audience) AS "Total audience",
+  AVG(audience) AS "Average audience"
+FROM
+  webinar
+WHERE
+  teacher = 'Julia Vila';
+```
+In both queries, the WHERE clause is added to filter the webinars based on the specified teacher's name.
+The result will have the following columns:
+- Total: Total number of webinars conducted by the specific teacher.
+- First started on: The earliest start date and time of the teacher's webinars.
+- Last ended on: The latest end date and time of the teacher's webinars.
+- Total audience: The sum of the audience reached in the teacher's webinars.
+- Average audience: The average number of attendees per webinar for the specific teacher.
+
+TASK 3:
+
+For the webinar topic "Introduction to Django ORM":
+
+```sql
+SELECT
+  COUNT(*) AS Total,
+  MIN(starts_on) AS "First started on",
+  MAX(ends_on) AS "Last ended on",
+  SUM(audience) AS "Total audience",
+  AVG(audience) AS "Average audience"
+FROM
+  webinar
+WHERE
+  name = 'Introduction to Django ORM';
+```
+
+For the webinar topic "Introduction to Databases":
+
+```sql
+SELECT
+  COUNT(*) AS Total,
+  MIN(starts_on) AS "First started on",
+  MAX(ends_on) AS "Last ended on",
+  SUM(audience) AS "Total audience",
+  AVG(audience) AS "Average audience"
+FROM
+  webinar
+WHERE
+  name = 'Introduction to Databases';
+```
+In both queries, the WHERE clause is added to filter the webinars based on the specified webinar topic name.
+The result will have the following columns:
+- Total: Total number of webinars for the specific topic.
+- First started on: The earliest start date and time of the webinars for the specific topic.
+- Last ended on: The latest end date and time of the webinars for the specific topic.
+- Total audience: The sum of the audience reached in the webinars for the specific topic.
+- Average audience: The average number of attendees per webinar for the specific topic.

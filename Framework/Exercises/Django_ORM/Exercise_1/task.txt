@@ -1,0 +1,38 @@
+Project Title: Movie Catalog with Django
+Project Description:
+In this beginner-friendly project, you will build a movie catalog web application using Django, a powerful Python web
+framework. The application will allow users to browse and search for movies based on various parameters passed through
+GET requests in the URL. The movie information will be stored in a database without any relations, keeping the project
+simple and focused on the core concepts.
+Project Steps:
+Step 1: Setup Django Project
+Step 2: Create Movie App
+Step 3: Define Movie Model
+    In the models.py file of the movie_app, define a Movie model with the following fields:
+    title (CharField)
+    genre (CharField)
+    year (IntegerField)
+    director (CharField)
+    description (TextField)
+Step 4: Set Up Database
+    Apply the initial database migrations: python manage.py migrate
+Step 5: Create Views
+    In the views.py file of the movie_app, define view functions to handle different requests, such as:
+    movie_list(request): Renders a list of movies.
+    movie_details(request, movie_id): Renders the details of a specific movie.
+    search_movies(request): Handles the movie search functionality.
+Step 6: Define URL Patterns
+Step 7: Test the Application
+    Example Usage:
+        Display Movie List:
+        URL: http://localhost:8000/movies/
+        Description: This URL will display a list of all movies in the catalog.
+        View Movie Details:
+        URL: http://localhost:8000/movie/<movie_id>/
+        Description: Replace <movie_id> with the ID of the movie you want to view. This URL will display the details
+        of the specified movie.
+        Search for Movies:
+        URL: http://localhost:8000/search/?title=<search_query>
+        Description: Replace <search_query> with the title or genre of the movie you want to search for. This URL will
+        display a list of movies matching the search criteria.
+        Note: You can add additional parameters to the search URL based on the fields you defined in the Movie model.

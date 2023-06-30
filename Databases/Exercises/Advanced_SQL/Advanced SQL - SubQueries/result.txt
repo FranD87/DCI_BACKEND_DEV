@@ -1,0 +1,125 @@
+TASK 1:
+
+```sql
+SELECT i.id, i.name
+FROM item AS i
+LEFT JOIN stock AS s ON i.id = s.item_id
+WHERE s.item_id IS NULL OR s.quantity = 0
+ORDER BY i.name;
+```
+The given SQL query retrieves information from two tables, "item" and "stock." Here's a breakdown of what's happening:
+
+1. The query starts with the SELECT statement, which specifies the columns to be returned: "id" and "name" from the
+   "item" table.
+2. The query utilizes a LEFT JOIN to combine rows from the "item" table with matching rows from the "stock" table.
+   The ON clause specifies the condition for the join, which is that the "id" column of the "item" table matches the
+   "item_id" column of the "stock" table.
+3. The WHERE clause filters the joined rows. It includes two conditions separated by the OR operator:
+   - The first condition checks if the "item_id" column in the "stock" table is NULL, indicating that there is no
+     corresponding stock entry for the item.
+   - The second condition checks if the "quantity" column in the "stock" table is 0, meaning the item is out of stock.
+4. The ORDER BY clause sorts the result set in ascending order based on the "name" column of the "item" table.
+
+In summary, the query retrieves the "id" and "name" of items from the "item" table where either there is no
+corresponding stock entry or the quantity in the stock is zero. The result is sorted alphabetically by the item name.
+
+TASK 2:
+
+```sql
+SELECT s.location, s.item_id, i.name, s.quantity
+FROM stock AS s, item AS i
+WHERE s.item_id = i.id
+ORDER BY s.location, s.item_id;
+```
+
+1. The query selects the fields `s.location`, `s.item_id`, `i.name`, and `s.quantity` to be included in the result.
+2. The query specifies two tables in the `FROM` clause: `stock AS s` and `item AS i`. These are the tables from which
+   we want to retrieve data.
+3. The query uses a comma syntax in the `FROM` clause, which performs an implicit join between the `stock` and
+   `item` tables. It combines each row from the `stock` table with the corresponding row from the `item` table based
+   on the condition specified in the `WHERE` clause.
+4. The `WHERE` clause `s.item_id = i.id` specifies the condition for joining the two tables. It ensures that the
+   `item_id` in the `stock` table matches the `id` in the `item` table.
+5. The `ORDER BY` clause sorts the result first by `s.location` in ascending order and then by `s.item_id` in
+   ascending order.
+6. The query retrieves the desired fields from the joined tables and returns the result.
+
+Overall, the query combines the `stock` and `item` tables based on the matching `item_id`, and selects the
+specified fields from both tables. It provides a list of all items in stock, where each row represents an item
+along with its corresponding location, item ID, name, and quantity.
+
+TASK 3:
+
+SELECT i.name, s.location, s.quantity
+FROM stock AS s, item AS i
+WHERE s.item_id = i.id
+AND s.quantity = (
+    SELECT MAX(quantity)
+    FROM stock
+)
+ORDER BY i.name;
+
+1. The query selects the fields `i.name`, `s.location`, and `s.quantity` to be included in the result.
+2. The query specifies two tables in the `FROM` clause: `stock AS s` and `item AS i`. These are the tables from which
+   we want to retrieve data.
+3. The query uses a comma syntax in the `FROM` clause, which performs an implicit join between the `stock` and
+   `item` tables. It combines each row from the `stock` table with the corresponding row from the `item` table based
+   on the condition specified in the `WHERE` clause.
+4. The `WHERE` clause `s.item_id = i.id` specifies the condition for joining the two tables. It ensures that the
+   `item_id` in the `stock` table matches the `id` in the `item` table.
+5. The subquery `(SELECT MAX(quantity) FROM stock)` calculates the maximum quantity value from the `quantity`
+   column in the `stock` table.
+6. The outer query filters the results by comparing the `quantity` of each row with the maximum quantity obtained
+   from the subquery (`s.quantity = (SELECT MAX(quantity) FROM stock)`). This ensures that only rows with the
+   maximum quantity are included in the result.
+7. The `ORDER BY` clause sorts the result by `i.name` in ascending order, based on the name of the item.
+
+Overall, the query combines the `stock` and `item` tables based on the matching `item_id` and selects the
+specified fields. It also uses a subquery to find the maximum quantity in the `stock` table and filters the
+result to include only items with that maximum quantity. The final result includes the name of the item, its
+location, and the quantity, sorted by the name of the item.
+
+TASK 4:
+
+SELECT
+  o.id AS order_id,
+  i.name AS item,
+  oi.quantity AS required,
+  MAX(s.quantity) AS available,
+  s.location
+FROM
+  shop_order AS o,
+  ordered_items AS oi,
+  stock AS s,
+  item AS i
+WHERE
+  o.id = oi.order_id
+  AND oi.item_id = i.id
+  AND oi.item_id = s.item_id
+  AND oi.quantity > s.quantity
+GROUP BY
+  o.id, i.name, oi.quantity, s.location
+ORDER BY
+  o.id, i.name;
+
+1. The query selects the fields `o.id` as `order_id`, `i.name` as `item`, `oi.quantity` as `required`,
+   and `MAX(s.quantity)` as `available`, along with `s.location` from the tables.
+2. The tables involved in the query are `shop_order`, `ordered_items`, `stock`, and `item`.
+3. The `WHERE` clause specifies the conditions for joining the tables:
+   - `o.id = oi.order_id` ensures that the `id` in `shop_order` matches the `order_id` in `ordered_items`.
+   - `oi.item_id = i.id` ensures that the `item_id` in `ordered_items` matches the `id` in `item`.
+   - `oi.item_id = s.item_id` ensures that the `item_id` in `ordered_items` matches the `item_id` in `stock`.
+   - `oi.quantity > s.quantity` filters the rows where the quantity required is greater than the quantity
+      available in stock.
+4. The `GROUP BY` clause includes the columns `o.id`, `i.name`, `oi.quantity`, and `s.location`. This groups the
+   result based on these columns.
+5. The `ORDER BY` clause sorts the result first by `o.id` (order_id) and then by `i.name` (item) in ascending order.
+6. The result of the query will include the order ID, item name, quantity required, maximum quantity available, and
+   the location with the maximum availability.
+
+Overall, this query joins the `shop_order`, `ordered_items`, `stock`, and `item` tables based on the specified
+relationships. It filters the result to include only the orders and items where the required quantity exceeds the
+available quantity in stock. The result is grouped by order ID, item name, quantity, and location, and sorted by
+order ID and item name.
+
+

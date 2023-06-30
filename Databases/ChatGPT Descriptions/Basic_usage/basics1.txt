@@ -1,0 +1,194 @@
+CREATE TABLE my_user (ID INT PRIMARY KEY NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, phone TEXT);
+
+The SQL query CREATE TABLE my_user (ID INT PRIMARY KEY NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, phone TEXT);
+creates a new table called "my_user" with four columns:
+
+"ID": An integer column that serves as the primary key of the table. The "PRIMARY KEY" constraint ensures that each
+value in this column is unique and not null.
+"f_name": A text column that stores the first name of the user. The "NOT NULL" constraint ensures that this column
+cannot contain null values.
+"l_name": A text column that stores the last name of the user. The "NOT NULL" constraint ensures that this column
+cannot contain null values.
+"phone": A text column that stores the phone number of the user. This column is allowed to contain null values.
+The "CREATE TABLE" statement is commonly used to define the structure of a new table in a relational database.
+By specifying the names and data types of each column, as well as any constraints on their values, you can define
+the schema of the table and ensure that data is stored in a consistent and structured way.
+
+\d my_user
+
+The SQL command \d my_user is typically used in a PostgreSQL command-line interface, such as psql or pgAdmin, to
+describe the structure of the "my_user" table. The command displays information about the columns, constraints, and
+indexes defined on the table.Assuming that the "my_user" table has already been created, you can run the \d my_user
+command to view its structure. Here is an example of the output you might see:
+           Table "public.my_user"
+ Column |         Type          | Modifiers
+--------+-----------------------+-----------
+ ID     | integer               | not null  -- primary key constraint
+ f_name | text                  | not null
+ l_name | text                  | not null
+ phone  | text                  |
+Indexes:
+    "my_user_pkey" PRIMARY KEY, btree (ID)
+
+This output shows that the "my_user" table has four columns: "ID", "f_name", "l_name", and "phone". The "ID" column is
+defined as an integer and serves as the primary key of the table, while the "f_name" and "l_name" columns are defined
+as text columns and are not allowed to contain null values. The "phone" column is also defined as a text column, but is
+allowed to contain null values.The output also shows that the "my_user" table has a primary key constraint defined on
+the "ID" column, as well as an index called "my_user_pkey" that uses a b-tree data structure to enforce the constraint.
+This ensures that each row in the table has a unique value in the "ID" column.
+
+
+ALTER TABLE my_user
+ADD COLUMN address VARCHAR;
+
+To add a new column called "address" with a data type of "VARCHAR" to the "my_user" table, you can use the following
+SQL query:
+ALTER TABLE my_user ADD COLUMN address VARCHAR;
+This will add a new column called "address" to the "my_user" table with a data type of "VARCHAR". By default, the new
+column will be added to the end of the table.Note that you can specify other column attributes, such as NOT NULL,
+DEFAULT, or UNIQUE, as needed when adding the new column. For example, the following query adds a new "address" column
+that cannot be left blank:
+ALTER TABLE my_user ADD COLUMN address VARCHAR NOT NULL;
+
+RENAME COLUMN address TO location;
+
+ALTER TABLE my_user RENAME COLUMN address TO location;
+This will rename the "address" column to "location". Any data previously stored in the "address" column will now be
+stored in the "location" column.
+
+# DROP TABLE my_user; -> ERROR:  table "my_user" does not exist
+# DROP DATABASE test_j; -> database "test_j" does not exist
+# To not get an errors we can add IF EXIST statement
+# ALTER TABLE my_user DROP IF EXISTS location;
+# DROP TABLE IF EXISTS my_user;
+# DROP DATABASE IF EXISTS test_j;
+# CREATE TABLE my_user (ID INT PRIMARY KEY NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, phone TEXT);
+# INSERT INTO my_user VALUES (1, 'Julia', 'Shcherbyna', '0501853456');
+# insert data in some fields:
+# INSERT INTO my_user (ID, f_name, l_name) VALUES (2, 'Julia', 'Shcherbyna');
+# We can insert multiple values:
+# INSERT INTO my_user (ID, f_name, l_name) VALUES (3, 'Julia', 'Shcherbyna'), (4, 'Olga', 'Shcherbyna');
+# SELECT * from my_user;
+# SELECT f_name FROM my_user;
+# elect with condition:
+# SELECT f_name FROM my_user WHERE f_name='Julia';
+# UPDATE table values:
+# UPDATE my_user SET phone = '0000';
+# update with conditions:
+# UPDATE my_user SET f_name='Ola', l_name='Tsimbal' WHERE ID=2;
+# DELETE FROM my_user; -> delete all rows in table
+# TRUNCATE my_user; -> clear all rows in table (can be used for multiple tables coma separated)
+# DELETE FROM my_user WHERE ID=3;
+# INSERT INTO my_user (ID, f_name, l_name) VALUES (6, 'Julia', 'Shcherbyna'), (5, 'Olga', 'Shcherbyna');
+# SELECT DISTINCT f_name FROM my_user; -> unique values
+# SELECT f_name AS "Name", l_name AS "Family name" FROM my_user;
+# SELECT f_name FROM my_user LIMIT 4;
+# The OFFSET clause will omit the first <number> of rows in the output.
+# SELECT ID, f_name, l_name FROM my_user OFFSET 2;
+# INSERT INTO my_user (ID, f_name, l_name) VALUES (10, 'Zac', 'Adams');
+# The ORDER BY clause can be used to sort the results.
+# An additional clause can be used to define the direction of the sorting: ASCending or DESCending.
+# If this clause is not define, it will be sorted ascendingly.
+# SELECT ID, f_name, l_name FROM my_user ORDER BY f_name ASC;
+# INSERT INTO my_user (ID, f_name, l_name) VALUES (11, 'Zac', 'Test');
+# INSERT INTO my_user (ID, f_name, l_name) VALUES (3, 'Zac', 'Barry');
+# SELECT ID, f_name, l_name FROM my_user ORDER BY f_name ASC, l_name ASC;
+# CREATE TABLE students (ID INT PRIMARY KEY NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, age INT NOT NULL);
+# INSERT INTO students (ID, f_name, l_name, age) VALUES (1, 'Zac', 'Barry', 21), (2, 'Julia', 'shcherbyna', 50),
+(3, 'Bob', 'Bay', 37), (4, 'Zac', 'Barry', 10);
+# 2 yongerstone:
+# SELECT ID, f_name, age FROM students ORDER BY age LIMIT 2;
+# 1 oldest:
+# SELECT ID, f_name, age FROM students ORDER BY age DESC LIMIT 1;
+# SQL LOGICAL:
+# SELECT ID, f_name, age FROM students WHERE age IN (21, 10);
+# SELECT ID, f_name, age FROM students WHERE age > 9 AND age < 36;
+# SELECT ID, f_name, age FROM students WHERE age BETWEEN 9 AND 36;
+# Text fields have an additional operator named LIKE, that is used to match against patterns.
+# The LIKE operator uses the % symbol that matches against any number of characters.
+# SELECT ID, f_name, age FROM students WHERE f_name LIKE 'Z%';
+
+
+
+DROP DATABASE IF EXISTS test_j;
+These lines are SQL comments, suggesting that the previous commands should be modified to include the IF EXISTS
+statement to avoid errors if the object being dropped does not exist. These lines demonstrate how to drop a column,
+table, or database using this syntax.
+
+CREATE TABLE my_user (ID INT PRIMARY KEY NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, phone TEXT);
+This line is a SQL command that creates a table called my_user with four columns: ID, f_name, l_name, and phone.
+The ID column is set as the primary key, and all columns are set as NOT NULL, which means they must have a value entered.
+
+INSERT INTO my_user VALUES (1, 'Julia', 'Shcherbyna', '0501853456');
+This line is a SQL command that inserts a row into the my_user table with values for each of the columns specified in
+the table definition.
+
+insert data in some fields:
+
+INSERT INTO my_user (ID, f_name, l_name) VALUES (2, 'Julia', 'Shcherbyna');
+These lines are SQL comments and a command that insert a new row into the my_user table with only the ID, f_name,
+and l_name columns specified.
+# We can insert multiple values:
+
+INSERT INTO my_user (ID, f_name, l_name) VALUES (3, 'Julia', 'Shcherbyna'), (4, 'Olga', 'Shcherbyna');
+These lines are SQL comments and a command that insert two new rows into the my_user table with the specified values
+for ID, f_name, and l_name.
+
+SELECT * from my_user;
+This line is a SQL command that selects all columns from the my_user table and displays the resulting rows.
+
+INSERT INTO my_user (ID, f_name, l_name) VALUES (6, 'Julia', 'Shcherbyna'), (5, 'Olga', 'Shcherbyna');:
+This statement inserts two new rows into the my_user table with the specified values for the ID, f_name, and l_name columns.
+
+SELECT DISTINCT f_name FROM my_user;: This statement selects all distinct values in the f_name column of the my_user table.
+
+SELECT f_name AS "Name", l_name AS "Family name" FROM my_user;: This statement selects the f_name column of
+the my_user table, but renames it to "Name". It also selects the l_name column and renames it to "Family name".
+
+SELECT f_name FROM my_user LIMIT 4;: This statement selects the first 4 rows from the f_name column of the my_user table.
+
+SELECT ID, f_name, l_name FROM my_user OFFSET 2;: This statement selects all rows from the my_user table, but skips
+the first 2 rows. It selects the ID, f_name, and l_name columns.
+
+INSERT INTO my_user (ID, f_name, l_name) VALUES (10, 'Zac', 'Adams');: This statement inserts a new row into the my_user
+table with the specified values for the ID, f_name, and l_name columns.
+
+SELECT ID, f_name, l_name FROM my_user ORDER BY f_name ASC;: This statement selects all rows from the my_user table and
+sorts them in ascending order based on the values in the f_name column. It selects the ID, f_name, and l_name columns.
+
+INSERT INTO my_user (ID, f_name, l_name) VALUES (11, 'Zac', 'Test');: This statement inserts a new row into the my_user
+table with the specified values for the ID, f_name, and l_name columns.
+
+INSERT INTO my_user (ID, f_name, l_name) VALUES (3, 'Zac', 'Barry');: This statement inserts a new row into the my_user
+table with the specified values for the ID, f_name, and l_name columns.
+
+SELECT ID, f_name, l_name FROM my_user ORDER BY f_name ASC, l_name ASC;: This statement selects all rows from the
+my_user table and sorts them in ascending order based on the values in the f_name column and then by the values in the
+l_name column. It selects the ID, f_name, and l_name columns.
+
+CREATE TABLE students (ID INT PRIMARY KEY NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, age INT NOT NULL);:
+This statement creates a new table named students with four columns: ID (primary key), f_name, l_name, and age.
+
+INSERT INTO students (ID, f_name, l_name, age) VALUES (1, 'Zac', 'Barry', 21), (2, 'Julia', 'shcherbyna', 50),
+(3, 'Bob', 'Bay', 37), (4, 'Zac', 'Barry', 10);: This statement inserts four new rows into the students table with
+the specified values for the ID, f_name, l_name, and age
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

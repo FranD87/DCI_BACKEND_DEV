@@ -1,0 +1,80 @@
+ADVANCED_SQL JOIN:
+
+1. `CREATE TABLE country (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL);`: This command creates a new table
+called "country" with two columns: "id" and "name". The "id" column is an automatically incrementing integer (SERIAL)
+and serves as the primary key. The "name" column is a string (VARCHAR) with a maximum length of 255 characters and is
+set to not accept NULL values.
+
+2. `INSERT INTO country (name) VALUES ('Germany'), ('France'), ('USA');`: This command inserts multiple rows into the
+"country" table. It specifies the values for the "name" column and adds three rows with the country names 'Germany',
+'France', and 'USA'.
+
+3. `CREATE TABLE city (id SERIAL PRIMARY KEY, name VARCHAR(255), country_id INT REFERENCES country);`: This command
+creates a new table called "city" with three columns: "id", "name", and "country_id". The "id" column is an
+automatically incrementing integer (SERIAL) and serves as the primary key. The "name" column is a string (VARCHAR)
+with a maximum length of 255 characters. The "country_id" column is an integer that references the "id" column in the
+"country" table.
+
+4. `INSERT INTO city (name, country_id) VALUES ('Berlin', 1), ('Marseille', 2), ('Rome', 2), ('Chicago', 3);`: This
+command inserts multiple rows into the "city" table. It specifies the values for the "name" and "country_id" columns
+and adds four rows with city names and their corresponding country IDs.
+
+5. `SELECT * FROM city JOIN country ON country.id = city.country_id;`: This command performs an inner join between
+the "city" and "country" tables based on the matching "country_id" and "id" columns. It retrieves all columns from
+both tables for the matching rows.
+
+6. `SELECT country.name AS "Country", city.name AS "City" FROM city JOIN country ON country.id = city.country_id;`:
+This command performs an inner join between the "city" and "country" tables based on the matching "country_id" and "id"
+columns. It retrieves the "name" column from both tables and renames them as "Country" and "City" respectively.
+
+7. `ALTER TABLE city ADD COLUMN city VARCHAR(255);`: This command modifies the "city" table by adding a new column
+called "city" of type VARCHAR with a maximum length of 255 characters.
+
+8. `UPDATE city SET country = Country.name FROM country WHERE city.country_id = country.id;`: This command updates the
+"country" column in the "city" table with the corresponding country names from the "country" table. It matches the
+"country_id" and "id" columns between the two tables.
+
+9. `SELECT * FROM city LEFT JOIN country ON country.id=city.country_id;`: This command performs a left join between the
+"city" and "country" tables. It retrieves all columns from both tables and includes all rows from the "city" table,
+along with matching rows from the "country" table based on the "country_id" and "id" columns. If there is no match in
+the "country" table, NULL values are used for the "country" columns.
+
+10. `INSERT INTO country (name) VALUES ('Ukraine');`: This command inserts a new row into the "country" table with the
+country name 'Ukraine'. It only specifies the value for the "name" column, and the "id" column will be automatically
+generated if it is defined as a SERIAL primary key.
+
+11. `SELECT * FROM city RIGHT JOIN country ON country.id=city.country_id;`: This command performs a right join between
+the "city" and "country" tables. It retrieves all columns from both tables and includes all rows from the "country"
+table, along with matching rows from the "city" table based on the "country_id" and "id" columns. If there is no match
+in the "city" table, NULL values are used for the "city" columns.
+
+12. `SELECT * FROM city FULL JOIN country ON country.id=city.country_id;`: This command performs a full join between
+the "city" and "country" tables. It retrieves all columns from both tables and includes all rows from both tables,
+matching them based on the "country_id" and "id" columns. If there is no match for a row in either table, NULL values
+are used for the corresponding columns.
+
+13. `SELECT * FROM city FULL JOIN country ON country.id=city.country_id WHERE country_id=2;`: This command performs a
+full join between the "city" and "country" tables. It retrieves all columns from both tables and includes all rows
+from both tables, matching them based on the "country_id" and "id" columns. It further filters the results to only
+include rows where the "country_id" is equal to 2.
+
+14. `CREATE TABLE area (id SERIAL PRIMARY KEY, name VARCHAR(255), city_id INT REFERENCES city);`: This command creates a
+new table called "area" with three columns: "id", "name", and "city_id". The "id" column is an automatically
+incrementing integer (SERIAL) and serves as the primary key. The "name" column is a string (VARCHAR) with a maximum
+length of 255 characters. The "city_id" column is an integer that references the "id" column in the "city" table.
+
+15. `INSERT INTO area (name, city_id) VALUES ('location A', 2), ('location B', 5), ('location C', 2), ('location D', 3),
+('location E', 1);`: This command inserts multiple rows into the "area" table. It specifies the values for the "name"
+and "city_id" columns and adds five rows with the area names and their corresponding city IDs.
+
+16. `SELECT * FROM city FULL JOIN country ON country.id=city.country_id FULL JOIN area ON city.id = area.city_id;`:
+This command performs a full join between the "city" and "country" tables, and then performs a full join with the
+"area" table. It retrieves all columns from all three tables and includes all rows from each table, matching them
+based on the specified join conditions.
+
+17. SELECT area.name AS Location, city.name AS City, country.name AS Country FROM area JOIN city ON
+city.id = area.city_id JOIN country ON country.id = city.country_id WHERE country.name = 'France';
+The given SQL query retrieves the names of areas, cities, and countries where the country name is 'France'. It combines
+data from the "area," "city," and "country" tables using JOIN operations based on their respective ID columns. The query
+selects the "name" column from the "area" table as "Location," the "name" column from the "city" table as "City," and
+the "name" column from the "country" table as "Country."

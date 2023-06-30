@@ -1,0 +1,15 @@
+{% extends 'website/layout.html' %}
+{% block title %}{{ products.0.name }}{% endblock %}
+
+{% block page_content %}
+    <h1>Welcome to our shop</h1>
+    <h2>Here is products list:</h2>
+    <ul>
+        {% for product in products %}
+        <li>{{ product.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% block my_custom_block %}
+<h1>HERE IS MY CUSTOM FOOTER</h1>
+{% endblock %}

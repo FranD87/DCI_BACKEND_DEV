@@ -1,0 +1,27 @@
+Project Title: "Django Blog "
+
+Project Description:
+The goal of this project is to create a simple blogging application using Django's. In this project, users will be able to create, read, update, and delete blog posts.
+
+Step 1: Project Setup
+
+Step 2: Define Models
+Define a BlogPost model with fields like title (CharField), content (TextField), created_at (DateTimeField), and updated_at (DateTimeField).
+
+Step 3: Create Views
+Implement the get method to return a JSON response with all the blog posts.
+Implement the get method to return a JSON response with the details of a specific blog post.
+Implement the post method to create a new blog post using the data provided in the request payload and return a JSON response with the newly created blog post's details.
+Implement the put method to update an existing blog post identified by its ID using the data provided in the request payload and return a JSON response with the updated blog post's details.
+Implement the delete method to delete an existing blog post identified by its ID and return a JSON response indicating success.
+
+Step 4: Define URLs
+
+Step 5: Test the Application
+Start the development server using the command python manage.py runserver.
+Use an API testing tool like Postman:
+GET /posts/: Retrieve all blog posts.
+GET /posts/<id>/: Retrieve a specific blog post by ID.
+POST /posts/create/: Create a new blog post.
+PUT /posts/update/<id>/: Update an existing blog post by ID.
+DELETE /posts/delete/<id>/: Delete post by ID

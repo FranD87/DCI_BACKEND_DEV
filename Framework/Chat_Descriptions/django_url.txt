@@ -1,0 +1,132 @@
+SETUP
+
+1. Deactivate the old virtual environment by using the command: `deactivate`.
+2. Create a new virtual environment in the directory of your choice by using the command: `python3 -m venv
+   virtual_env_name`.
+3. Activate the virtual environment by using the command: `source virtual_env_name/bin/activate`.
+4. Finally, install the necessary libraries by using the command: `pip install library_name`.
+
+
+
+VIEWS.PY
+
+1. `from django.shortcuts import render`:
+   - This line imports the `render` function from the `django.shortcuts` module.
+   - The `render` function is used to render a template with the provided context and return an `HttpResponse` object.
+
+2. `from django.http import HttpResponse`:
+   - This line imports the `HttpResponse` class from the `django.http` module.
+   - The `HttpResponse` class is used to generate an HTTP response that can be returned from a view function.
+
+3. `from django.urls import reverse`:
+   - This line imports the `reverse` function from the `django.urls` module.
+   - The `reverse` function is used to generate a URL by providing the name of a view and its parameters.
+
+4. `def home(request):`
+   - This function represents the `home` view in a Django web application.
+   - It takes a `request` parameter, which represents an HTTP request made to the server.
+   - The function includes a docstring that describes the logic of the lending page.
+   - It returns an HTTP response with the content `'Hello Frank'` using the `HttpResponse` class.
+
+5. `def products_view(request):`
+   - This function represents the `products_view` view in a Django web application.
+   - It takes a `request` parameter, which represents an HTTP request made to the server.
+   - The function includes a docstring that describes the logic for the product list.
+   - It returns an HTTP response with the content `'Here is a list of all products'` using the `HttpResponse` class.
+
+6. `def product_by_id(request, item_id):`
+   - This function represents the `product_by_id` view in a Django web application.
+   - It takes two parameters: `request`, which represents an HTTP request made to the server, and `item_id`, which
+     represents the ID of a product.
+   - The function includes a docstring that describes the logic of retrieving an item from the database by its ID.
+   - It returns an HTTP response with the content that includes the provided `item_id` using the `HttpResponse` class.
+
+7. `def product_test(request, test):`
+   - This function represents the `product_test` view in a Django web application.
+   - It takes two parameters: `request`, which represents an HTTP request made to the server, and `test`, which is a
+     custom parameter.
+   - The function returns an HTTP response with the content `'Here we are making testing'` using the `HttpResponse`
+     class.
+
+8. `def song_by_month(request, month, is_int):`
+   - This function represents the `song_by_month` view in a Django web application.
+   - It takes three parameters: `request`, which represents an HTTP request made to the server, `month`, which
+     represents a month value, and `is_int`, which is a boolean value indicating whether the month value is an integer.
+   - The function checks if `is_int` is `True` and returns an HTTP response with the content `'Month is digit'`
+     if true. Otherwise, it returns an HTTP response with the content `'Month is string'`. Both responses are created
+     using the `HttpResponse` class.
+
+
+
+URLS.py
+
+Certainly! Here is a brief description of the provided code snippets:
+
+1. `from django.contrib import admin`:
+   - This line imports the `admin` module from `django.contrib`.
+   - The `admin` module provides functionality for creating an administrative interface for managing Django models.
+
+2. `from django.urls import path, re_path`:
+   - This line imports the `path` and `re_path` functions from the `django.urls` module.
+   - These functions are used to define URL patterns in a Django web application.
+
+3. `from shop.views import home, products_view, product_by_id, product_test, song_by_month`:
+   - This line imports the views `home`, `products_view`, `product_by_id`, `product_test`, and `song_by_month`
+     from the `shop.views` module.
+   - These views are specific to the "shop" application and are used to handle various requests and render
+     appropriate responses.
+
+4. `path()` and `re_path()` functions:
+   - These functions are used to define URL patterns and associate them with specific views.
+   - They are typically used within the Django `urlpatterns` list in the project's `urls.py` file.
+   - The `path()` function is used for regular expression-less URL patterns, while the `re_path()` function is
+     used for patterns that require regular expressions.
+
+
+5. `urlpatterns = [...]`:
+   - This line defines the `urlpatterns` list, which is used to associate URL patterns with specific views in a Django
+     web application.
+   - Each item in the list represents a URL pattern and specifies the corresponding view or view function to be
+     executed when that pattern is matched.
+
+6. `path('admin/', admin.site.urls)`:
+   - This line associates the URL pattern `'admin/'` with the Django admin interface.
+   - When a user visits a URL that matches this pattern, the Django admin interface is displayed.
+
+7. `path('', home)`:
+   - This line associates the root URL (i.e., `'/'`) with the `home` view function.
+   - When a user visits the root URL of the web application, the `home` view function is executed to handle the request.
+
+8. `path('product/<int:item_id>', product_by_id)`:
+   - This line associates the URL pattern `'product/<int:item_id>'` with the `product_by_id` view function.
+   - The `<int:item_id>` part of the pattern captures an integer value from the URL and assigns it to the `item_id`
+     parameter of the `product_by_id` view function.
+   - When a user visits a URL that matches this pattern (e.g., `'product/42'`), the `product_by_id` view function is
+     executed with the captured `item_id` value.
+
+9. `path('products', products_view)`:
+   - This line associates the URL pattern `'products'` with the `products_view` view function.
+   - When a user visits a URL that matches this pattern (e.g., `'products'`), the `products_view` view function is
+     executed to handle the request.
+
+10. `path('product/<str:test>', product_test)`:
+   - This line associates the URL pattern `'product/<str:test>'` with the `product_test` view function.
+   - The `<str:test>` part of the pattern captures a string value from the URL and assigns it to the `test` parameter
+     of the `product_test` view function.
+   - When a user visits a URL that matches this pattern (e.g., `'product/example'`), the `product_test` view function
+     is executed with the captured `test` value.
+
+11. `path('song/<int:month>', song_by_month, {'is_int': True})` and `path('song/<str:month>', song_by_month,
+   {'is_int': False})`:
+   - These lines associate URL patterns with the `song_by_month` view function, differentiated by the type of
+     `month` parameter.
+   - The `path('song/<int:month>', song_by_month, {'is_int': True})` pattern expects an integer value for the
+     `month` parameter and sets `is_int` to `True` in the view function's argument.
+   - The `path('song/<str:month>', song_by_month, {'is_int': False})` pattern expects a string value for the
+     `month` parameter and sets `is_int` to `False` in the view function's argument.
+   - These patterns allow for different behavior in the `song_by_month` view function depending on whether the
+     `month` value is an integer or a string.
+
+
+
+

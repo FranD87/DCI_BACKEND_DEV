@@ -1,0 +1,324 @@
+Create Project:
+
+STEP 1:
+    - create virtual envoiroment: python3 -m venv venv
+    - activate venv: source venv/bin/activate
+    - Install Django: pip install django
+NOTE:
+    1. The command `python3 -m venv venv` is executed.
+    2. This command creates a new virtual environment named `venv` using the `venv` module in Python.
+    3. A virtual environment is an isolated Python environment that allows you to install and manage packages
+       separately from the system-wide Python installation.
+    4. The virtual environment is created in a directory named `venv` in the current location.
+    5. The `venv` directory contains the necessary files and folders to maintain the virtual environment.
+    6. The virtual environment helps ensure that the project's dependencies are isolated and do not conflict with other
+       Python projects.
+    7. The command `source venv/bin/activate` is executed.
+    8. This command activates the virtual environment by running the activation script located in the `venv/bin`
+       directory.
+    9. Once the virtual environment is activated, the prompt in the terminal changes to indicate that the virtual
+       environment is active.
+    10. The command `pip install django` is executed.
+    11. This command uses the `pip` package manager to install Django into the active virtual environment.
+    12. `pip` retrieves the Django package from the Python Package Index (PyPI) and installs it along with any required
+       dependencies.
+    13. After the installation is complete, Django is available for use within the virtual environment.
+    14. The virtual environment allows for a clean and separate installation of Django, ensuring that the project's
+       dependencies are self-contained and do not affect other Python environments or projects.
+
+STEP 2:
+    '''Set up project'''
+    - create project: django-admin startproject my_web .
+    - create app:  django-admin startapp shop
+    - create app:  django-admin startapp blog
+
+NOTE:
+    1. The command `django-admin startproject my_web .` is executed.
+    2. This command creates a new Django project named `my_web` in the current directory.
+    3. The dot (`.`) at the end of the command specifies that the project files should be created in the current
+       directory rather than in a new subdirectory.
+    4. The `startproject` command generates the basic structure and files required for a Django project, including
+       settings, URLs, and a project-specific directory.
+    5. After running this command, a new directory named `my_web` is created, containing the initial files and
+       directories for the Django project.
+
+    6. The command `django-admin startapp shop` is executed.
+    7. This command creates a new Django application named `shop`.
+    8. The `startapp` command generates the necessary files and directories for the application, including models,
+       views, and templates.
+    9. After running this command, a new directory named `shop` is created inside the project directory, containing
+       the initial files and structure for the `shop` application.
+
+    10. The command `django-admin startapp blog` is executed.
+    11. This command creates a new Django application named `blog`.
+    12. Similar to the previous command, the `startapp` command generates the required files and directories for
+       the `blog` application.
+    13. After running this command, a new directory named `blog` is created inside the project directory, containing
+       the initial files and structure for the `blog` application.
+
+STEP 3:
+    '''Structure both apps to run path from my_web urls.py'''
+        - create urls.py in both app directories
+            - insert into both urls.py:
+                '''
+                #blog dir urls.py
+                from django.urls import path
+                app_name = 'blog'
+
+                #shop dir urls.py
+                from django.urls import path
+                app_name = 'shop'
+
+                #my_web urls.py
+                from django.contrib import admin
+                from django.urls import path, include
+
+                urlpatterns = [
+                    path('admin/', admin.site.urls),
+                    path('blog/', include('blog.urls')),
+                    path('shop/', include('shop.urls'))
+                ]
+
+                '''
+    NOTE:
+
+    1. The "blog" directory's `urls.py` file imports the `path` function from `django.urls`.
+    2. It sets the `app_name` variable to 'blog'.
+    3. The "shop" directory's `urls.py` file also imports the `path` function from `django.urls`.
+    4. It sets the `app_name` variable to 'shop'.
+    5. The `my_web` directory's `urls.py` file imports the `admin` module and the `path` and `include` functions
+       from `django.urls`.
+    6. It defines a list named `urlpatterns` that includes the following paths:
+       - '/admin/' - Maps to the Django admin site.
+       - '/blog/' - Includes the URLs defined in the 'blog' app.
+       - '/shop/' - Includes the URLs defined in the 'shop' app.
+
+STEP 4:
+    '''create database:'''
+        - psql -h localhost -U postgres
+        - enter password
+        - CREATE DATABASE my_db;
+        - \c my_db
+
+STEP 5:
+    '''connect Django to database:'''
+        - go to my_web/ settings.py
+            - Scroll too "INSTALLED APPS" & add both your apps.
+                '''
+                INSTALLED_APPS = [
+                    'shop',
+                    'django.contrib.admin',
+                    'django.contrib.auth',
+                    'django.contrib.contenttypes',
+                    'django.contrib.sessions',
+                    'django.contrib.messages',
+                    'django.contrib.staticfiles',
+                ]
+                '''
+            - Scroll too "DATABASES" and add:
+                '''
+                DATABASES = {
+                    'default': {
+                        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                        'NAME': 'music',
+                        'USER': 'postgres',
+                        'PASSWORD': 'Fran1361987',
+                        'HOST': '127.0.0.1',
+                        'PORT': '5432',
+                    }
+                }
+                '''
+        - In terminal pip install psycopg2-binary
+
+
+STEP 6:
+    '''Create table for Database'''
+    - go to shop/models.py
+        Add the following similar syntax:
+        '''
+        class Item(models.Model):
+            '''Item Model'''
+            name = models.CharField(max_length=255)
+            state = models.CharField(max_length=10)
+            stock = models.IntegerField()# null=True by default
+            test = models.IntegerField(null=True)
+        '''
+    NOTE:
+
+        1. A `Item` class is defined, which is a subclass of `models.Model`.
+        2. The `Item` model represents an item and has the following fields:
+           - `name`: A character field with a maximum length of 255 characters.
+           - `state`: A character field with a maximum length of 10 characters.
+           - `stock`: An integer field.
+           - `test`: An integer field that allows null values.
+        3. The `Item` class is associated with a database table that stores instances of items.
+        4. This model is used to define the structure and behavior of item objects in the database.
+
+STEP 7:
+    '''To MAKE migrations'''
+        - python3 manage.py makemigrations
+
+    NOTE:
+        1. The command `python3 manage.py makemigrations` is executed.
+        2. This command is used in Django to generate new database migration files based on the changes made to the
+           project's models.
+        3. Django's migration system tracks and manages changes to the database schema over time.
+        4. The `makemigrations` command analyzes the current state of the models and compares it to the previous state
+           stored in the migration files.
+        5. It detects any changes, such as the creation of new models, modification of fields, or relationships
+           between models.
+        6. Based on the detected changes, it generates new migration files that describe how to apply these changes
+           to the database.
+        7. Each migration file contains Python code that represents a specific database schema modification, such as
+           creating a table or adding a column.
+        8. The generated migration files are stored in the project's `migrations` directory.
+        9. These migration files can be later used with the `migrate` command to apply the database schema changes to
+           the actual database.
+        10. The `makemigrations` command helps to keep the database schema in sync with the project's models and
+           allows for a smooth migration process when deploying changes to the database structure.
+
+    '''Add to the table'''
+        - insert new column name eg. test = models.IntegerField(null=True)
+
+    '''Update the table'''
+        - in terminal add: python3 manage.py migrate
+
+        NOTE:
+            1. The command `python3 manage.py migrate` is executed.
+            2. This command is used in Django to apply any pending database migrations.
+            3. Django's migration system keeps track of the changes made to the database schema through migration files.
+            4. The `migrate` command checks the current state of the migrations and applies any outstanding migrations
+               to the database.
+            5. It reads the migration files in the project's `migrations` directory and applies them in sequential order.
+            6. Each migration file contains instructions on how to modify the database schema, such as creating or
+               altering tables, adding or modifying columns, or creating relationships between tables.
+            7. The `migrate` command applies these instructions to the database, ensuring that the database schema is
+               synchronized with the project's models.
+            8. It keeps track of which migrations have been applied, allowing for incremental updates to the database
+               schema as new migrations are added in the future.
+            9. The `migrate` command is typically run during the deployment process or when updating the project's
+               codebase to ensure that the database schema reflects the latest changes in the project's models.
+            10. By executing the `migrate` command, any pending migrations are applied, and the database is brought up
+               to date with the current state of the project's models.
+
+STEP 8:
+    '''Analyze Database'''
+        -
+
+
+        NOTE:
+
+            1. The command `python3 manage.py inspectdb` is executed.
+            2. The output of the command, which represents the generated Django models based on the existing database
+               schema, is redirected to a file named `models.py`.
+            3. The `inspectdb` command analyzes the database tables and generates Django model definitions based on
+               the schema.
+            4. The resulting `models.py` file contains the Django model definitions that correspond to the existing
+               database tables.
+            5. The generated models can be further modified and used in the Django project to interact with the
+               corresponding database tables.
+
+STEP 9:
+    '''Create content management system(CMS)
+        - create a main user/admin
+            -python3 manage.py createsuperuser
+        NOTE:
+
+            1. The command `python3 manage.py createsuperuser` is executed.
+            2. This command is used in Django to create a superuser account for the admin site.
+            3. It prompts the user to enter a username for the superuser.
+            4. After entering the username, it prompts the user to enter an email address for the superuser.
+            5. Next, it prompts the user to enter a password for the superuser.
+            6. Once the username, email, and password are provided, it creates a new superuser account in the
+               database.
+            7. The superuser account has elevated privileges and can access the Django admin site to perform
+               administrative tasks.
+            8. The newly created superuser can log in to the admin site using the provided credentials.
+            9. This command is typically used during the setup or maintenance of a Django project to create an initial
+               superuser account with administrative access.
+
+    '''Register your model in admin.py'''
+        - add after imports:
+            - admin.site.register(Item)
+
+            NOTE:
+
+                1. The `admin.site.register(Item)` code registers the `Item` model with the Django admin site.
+                2. It allows the `Item` model to be managed and edited through the Django admin interface.
+                3. The `Item` model will now appear in the admin site's list of registered models.
+                4. Registered models can be accessed and manipulated by authorized administrators through the admin
+                   site's interface.
+                5. This registration enables administrators to perform CRUD (Create, Read, Update, Delete) operations
+                   on `Item` instances.
+                6. The registered `Item` model will have its own admin page with default CRUD functionality.
+                7. By registering the `Item` model, administrators can easily manage and administer items in the system
+                   without directly interacting with the database or writing additional code for admin-related
+                   functionality.
+
+    ''' Check your admin'''
+        - python3 manage.py runserver
+            - type into browser: http://127.0.0.1:8000/admin/
+
+    ''' Add items to your table also in browser http://127.0.0.1:8000/admin'''
+
+STEP 10:
+        '''Create in the views.py'''
+            - from django.http import HttpResponse
+              from django.shortcuts import render
+              from shop.models import Item
+
+              def main(request):
+                  item = Item.objects.create(name='Tablet', state='New', stock=10)
+                  print(item)
+                  print(item.pk)
+                  return HttpResponse(f'Item {item.name} was created')
+
+              item_test = Item(name='Tablet', state='New', stock=10)
+                  print(item_test.id)
+                  item_test.save()
+                  print(item_test.id)
+
+               first_item = Item.objects.get(id=1)
+                   print(first_item)
+               # items = Item.objects.get(name="Tablet") -> Error only 1 ite allowed in get
+               all_items = Item.objects.all()
+                   print(all_items)
+               tablets = Item.objects.filter(name='Tablet')
+
+        NOTE:
+
+              1. The code imports the `HttpResponse` class from `django.http` and the `render` function from
+                 `django.shortcuts`.
+              2. It imports the `Item` model from the `shop` application's models.
+              3. The `main` function is defined, which takes a `request` object as a parameter.
+              4. It creates a new `Item` object in the database with the attributes: name='Tablet', state='New',
+                 stock=10. The created object is assigned to the variable `item`.
+              5. It prints the `item` object to the console.
+              6. It prints the primary key (`pk`) of the `item` object to the console.
+              7. It returns an `HttpResponse` object with a formatted string indicating that the item with
+                 `item.name` was created.
+              8. A new `Item` object named `item_test` is created with the attributes: name='Tablet', state='New',
+                 stock=10.
+              9. It prints the `id` attribute of the `item_test` object to the console
+                 (before saving it to the database).
+              10. It saves the `item_test` object to the database.
+              11. It prints the `id` attribute of the `item_test` object to the console
+                 (after saving it to the database).
+              12. The code initializes a variable named `first_item` and uses the `Item.objects.get(id=1)` query to
+                 retrieve the item with an `id` of 1 from the database.
+              13. It prints the `first_item` object to the console.
+              14. Note: The commented line `# items = Item.objects.get(name="Tablet") -> Error only 1 item allowed
+                 in get` suggests that using `get()` with `name="Tablet"` will result in an error because the `get()`
+                 method expects only one result. This line is not executed.
+              15. The code initializes a variable named `all_items` and uses the `Item.objects.all()` query to
+                 retrieve all items from the database.
+              16. It prints the `all_items` queryset (collection of items) to the console.
+              17. The code initializes a variable named `tablets` and uses the `Item.objects.filter(name='Tablet')`
+                 query to retrieve all items from the database that have the name 'Tablet'.
+              18. Note: The `filter()` method returns a queryset, not a single item.
+
+
+
+
+
+
